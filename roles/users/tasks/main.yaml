@@ -1,0 +1,20 @@
+---
+- name: Add Roman
+  ansible.builtin.user:
+    name: roman
+    home: /home/roman
+
+- name: Add Roman key
+  ansible.posix.authorized_key:
+    user: roman
+    key: https://github.com/romankuchin.keys
+
+- name: Add Juri
+  ansible.builtin.user:
+    name: juri
+    home: /home/juri
+
+- name: Add Juri key
+  ansible.posix.authorized_key:
+    user: juri
+    key: https://github.com/hudolejev.keys
