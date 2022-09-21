@@ -10,8 +10,8 @@
     state: started
     enabled: yes
 
-- name: Change index.html file
-  copy:
-    src: index.html
-    dest: /var/www/html/index.html
+- name: Modify Nginx sites-enabled file
+  template:
+    src: default.j2
+    dest: /etc/nginx/sites-enabled/default
   notify: Restart Nginx
