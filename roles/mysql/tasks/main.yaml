@@ -1,0 +1,36 @@
+---
+- name: Install MySQL
+  apt:
+    name: mysql-server
+    state: latest
+
+- name: Run MySQL
+  service:
+    name: mysql
+    enabled: yes
+    state: started
+
+- name: Change MySQL bind-address
+  copy:
+    src: override.cnf
+    dest: /etc/mysql/mysql.conf.d/override.cnf
+  notify: Restart MySQL
+
+- name: Install Python library
+  apt:
+    name: python3-pymysql
+    state: latest
+
+- name: Add MySQL database
+  community.mysql.mysql_db:
+    name: "{{ mysql_database }}"
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+
+- name: Add MySQL user
+  community.mysql.mysql_user:
+    name: "{{ mysql_user }}"
+    password: "{{ mysql_password }}"
+    host: "%"
+    priv: "{{ mysql_database }}.*:ALL"
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+  #no_log: True

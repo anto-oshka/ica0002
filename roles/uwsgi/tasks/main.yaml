@@ -7,7 +7,7 @@
     state: latest
 
 - name: Add the uWSGI configuration for AGAMA
-  copy:
+  template:
     src: agama.ini
     dest: /etc/uwsgi/apps-enabled/agama.ini
   notify: Restart uWSGI
