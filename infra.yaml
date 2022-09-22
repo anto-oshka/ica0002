@@ -2,19 +2,28 @@
   - name: Init
     hosts: all
     become: yes
+    gather_facts: yes
     roles:
       - init
+    tags:
+      - i
 
   - name: Database Server
     hosts: db_servers
     become: yes
+    gather_facts: no
     roles:
       - mysql
+    tags:
+      - db
 
   - name: Web Server
     hosts: web_servers
     become: yes
+    gather_facts: no
     roles:
       - agama
       - uwsgi
       - nginx
+    tags:
+      - web

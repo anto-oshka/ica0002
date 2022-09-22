@@ -1,23 +1,23 @@
 ---
 - name: Install MySQL
-  apt:
+  ansible.builtin.apt:
     name: mysql-server
     state: latest
 
 - name: Run MySQL
-  service:
+  ansible.builtin.service:
     name: mysql
-    enabled: yes
     state: started
+    enabled: yes
 
 - name: Change MySQL bind-address
-  copy:
+  ansible.builtin.copy:
     src: override.cnf
     dest: /etc/mysql/mysql.conf.d/override.cnf
   notify: Restart MySQL
 
 - name: Install Python library
-  apt:
+  ansible.builtin.apt:
     name: python3-pymysql
     state: latest
 
@@ -33,4 +33,4 @@
     host: "%"
     priv: "{{ mysql_database }}.*:ALL"
     login_unix_socket: /var/run/mysqld/mysqld.sock
-  #no_log: True
+  no_log: True

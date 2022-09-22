@@ -1,17 +1,17 @@
 ---
 - name: Install Nginx
-  apt:
+  ansible.builtin.apt:
     name: nginx
     state: latest
 
 - name: Run Nginx
-  service:
+  ansible.builtin.service:
     name: nginx
     state: started
     enabled: yes
 
 - name: Modify Nginx sites-enabled file
-  template:
+  ansible.builtin.template:
     src: default.j2
     dest: /etc/nginx/sites-enabled/default
   notify: Restart Nginx
