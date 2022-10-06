@@ -12,7 +12,7 @@
     dest: /etc/uwsgi/apps-enabled/agama.ini
   notify: Restart uWSGI
 
-- name: Ensure that uWSGI is started
+- name: Run uWSGI
   ansible.builtin.service:
     name: uwsgi
     state: started

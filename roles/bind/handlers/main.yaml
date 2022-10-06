@@ -1,0 +1,8 @@
+---
+- name: Restart Bind
+  service:
+    name: bind9
+    state: restarted
+
+- name: Reload DB
+  shell: rndc reload

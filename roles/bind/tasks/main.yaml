@@ -1,0 +1,31 @@
+---
+- name: Install Bind9
+  ansible.builtin.apt: 
+    name:
+      - bind9
+    state: latest
+
+- name: Run Bind9
+  ansible.builtin.service:
+    name: bind9
+    state: started
+
+- name: Upload template /etc/bind/named.conf.options
+  ansible.builtin.template:
+    src: named.conf.options.j2
+    dest: /etc/bind/named.conf.options
+  notify: Restart Bind
+  #no_log: True
+
+- name: "Upload template /var/cache/bind/db.{{ startup_name }}"
+  ansible.builtin.template:
+    src: db.domain
+    dest: "/var/cache/bind/db.{{ startup_name }}"
+    force: no
+  notify: Reload DB
+      
+- name: Upload template /etc/bind/named.conf.local
+  ansible.builtin.template:
+    src: named.conf.local.j2
+    dest: /etc/bind/named.conf.local
+  notify: Restart Bind

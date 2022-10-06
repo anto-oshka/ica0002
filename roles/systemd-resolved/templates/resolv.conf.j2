@@ -1,0 +1,8 @@
+nameserver 127.0.0.53
+options edns0 trust-ad
+search openstacklocal
+
+{% for vm in groups['dns_servers'] -%}
+nameserver {{ hostvars[vm]['ansible_default_ipv4']['address'] }}
+search {{ domain_zone }}
+{% endfor -%}

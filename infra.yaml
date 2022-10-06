@@ -27,3 +27,21 @@
       - nginx
     tags:
       - web
+
+  - name: DNS server
+    hosts: dns_servers
+    become: yes
+    gather_facts: no
+    roles:
+      - bind
+    tags:
+      - dns
+
+  - name: systemd-resolved
+    hosts: all
+    become: yes
+    gather_facts: no
+    roles:
+      - systemd-resolved
+    tags:
+      - sysd
