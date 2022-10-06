@@ -1,11 +1,11 @@
 ---
 - name: Stop service "systemd-resolved"
-  service:
+  ansible.builtin.service:
     name: systemd-resolved
     state: stopped
     enabled: no
 
 - name: Replace resolv.conf
-  template:
+  ansible.builtin.template:
     src: resolv.conf.j2
     dest: /etc/resolv.conf
