@@ -1,5 +1,5 @@
 ---
-- name: Install Node Exporters
+- name: Install Node Exporter
   ansible.builtin.apt:
     name: prometheus-node-exporter
     state: latest

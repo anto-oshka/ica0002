@@ -1,0 +1,59 @@
+---
+- name: Add Grafana keys
+  ansible.builtin.apt_key:
+    url: https://packages.grafana.com/gpg.key
+
+- name: Add Grafana repo
+  ansible.builtin.apt_repository:
+    repo: deb https://packages.grafana.com/enterprise/deb stable main
+
+- name: Install Grafana
+  ansible.builtin.apt:
+    name: grafana
+    update_cache: yes
+    state: latest
+  register: grafana_installed
+
+- name: Run Grafana
+  ansible.builtin.service:
+    name: grafana-server
+    state: started
+
+- name: Upload Grafana config
+  ansible.builtin.template:
+    src: grafana.ini.j2
+    dest: /etc/grafana/grafana.ini
+  notify: Restart Grafana
+
+- name: Pause
+  ansible.builtin.pause:
+    seconds: 10
+  when: grafana_installed.changed
+
+- name: Change password
+  ansible.builtin.shell:
+    cmd: "sudo grafana-cli admin reset-admin-password {{ grafana_password }}"
+  when: grafana_installed.changed
+
+- name: Upload Datasources config
+  ansible.builtin.template:
+    src: datasources.j2
+    dest: /etc/grafana/provisioning/datasources/main.yaml
+  notify: Restart Grafana
+
+- name: Upload Dashboards config
+  ansible.builtin.template:
+    src: dashboards.j2
+    dest: /etc/grafana/provisioning/dashboards/main.yaml
+  notify: Restart Grafana
+
+- name: Create directory /var/lib/grafana/dashboards
+  ansible.builtin.file:
+    path: /var/lib/grafana/dashboards
+    state: directory
+
+- name: Upload main dashboard 
+  ansible.builtin.copy:
+    src: main.json
+    dest: /var/lib/grafana/dashboards/main.json
+  notify: Restart Grafana

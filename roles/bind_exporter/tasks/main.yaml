@@ -1,0 +1,10 @@
+---
+- name: Install Bind9 exporter
+  ansible.builtin.apt:
+    name: prometheus-bind-exporter
+    state: latest
+
+- name: Run Bind9 exporter
+  ansible.builtin.service:
+    name: prometheus-bind-exporter
+    state: started

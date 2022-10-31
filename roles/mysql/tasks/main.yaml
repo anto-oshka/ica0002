@@ -34,3 +34,11 @@
     priv: "{{ mysql_database }}.*:ALL"
     login_unix_socket: /var/run/mysqld/mysqld.sock
   #no_log: True
+
+- name: Add MySQL exporter user
+  community.mysql.mysql_user:
+    name: exporter
+    password: "{{ mysql_exporter_password }}"
+    priv: '*.*:PROCESS,REPLICATION CLIENT,SELECT'
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+  #no_log: True

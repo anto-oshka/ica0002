@@ -1,0 +1,17 @@
+---
+- name: Install Prometheus MySQL exporter
+  ansible.builtin.apt:
+    name: prometheus-mysqld-exporter
+    state: latest
+
+- name: Update my.cnf
+  ansible.builtin.template:
+    src: my.cnf.j2
+    dest: /var/lib/prometheus/.my.cnf
+  notify: Restart MySQL exporter
+  #no_log: True
+
+- name: Run Prometheus MySQL exporter
+  ansible.builtin.service:
+    name: prometheus-mysqld-exporter
+    state: started
