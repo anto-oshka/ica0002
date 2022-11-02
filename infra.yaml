@@ -5,6 +5,7 @@
     gather_facts: yes
     roles:
       - init
+      - backup
       - node_exporter
     tags:
       - init

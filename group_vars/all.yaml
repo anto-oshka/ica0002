@@ -32,6 +32,8 @@ localhost: 127.0.0.0/8
 startup_name: arcticoak
 domain_zone: arcticoak.io
 
+backup_server_ip_address: 192.168.42.132
+
 # Grafana
 grafana_password: !vault |
           $ANSIBLE_VAULT;1.1;AES256
@@ -40,3 +42,6 @@ grafana_password: !vault |
           64313763366334313936323933363566376531326335303863663732306466396331333961396339
           3439663738343636330a333731336164393230313235656631623833366534616532396164383338
           6631
+
+# Backups
+backup_server_ssh_key: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEu6pFFWyuRrl4WGFPQGElYN9txwTGm2wSntcpVAaN90

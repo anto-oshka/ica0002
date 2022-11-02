@@ -1,0 +1,32 @@
+---
+- name: Create user backup
+  user:
+    name: backup
+    shell: /bin/bash
+    create_home: yes
+    home: /home/backup
+    generate_ssh_key: yes
+    ssh_key_type: rsa
+    ssh_key_bits: 2048
+    ssh_key_file: .ssh/id_rsa
+
+- name: Add backup server SSH key to the list of known hosts
+  template:
+    src: known_hosts
+    dest: /home/backup/.ssh/known_hosts
+    owner: backup
+    mode: '0777'
+    force: no
+
+
+- name: Create directory /home/backup/restore
+  file:
+    path: /home/backup/restore
+    state: directory
+    owner: backup
+    mode: '0744'
+
+- name: Install Duplicity
+  apt:
+    name: duplicity
+    state: latest
