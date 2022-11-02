@@ -1,0 +1,11 @@
+[Unit]
+Description=Pinger
+Documentation=https://github.com/romankuchin/ica0002-2022/tree/main/08-logging/08-files
+After=network-online.target
+
+[Service]
+User=root
+ExecStart=/usr/local/bin/pinger/pinger.sh
+
+[Install]
+WantedBy=multi-user.target

@@ -58,15 +58,19 @@
     tags:
       - sysd
 
-  - name: Logging # Install and configure Prometheus
+  - name: Logging # Install and configure Prometheus, InfluxDB (+ exporter), pinger, Telegraf
     hosts:
       - logging_servers
     become: yes
     gather_facts: no
     roles:
       - prometheus
+      - influxdb
+      - influxdb_exporter
+      - pinger
+      - telegraf
     tags:
-      - prometheus
+      - log
   
   - name: Grafana # Install and configure Grafana
     hosts:
@@ -77,3 +81,12 @@
       - grafana
     tags:
       - grafana
+
+  - name: Rsyslog
+    hosts: all
+    become: yes
+    gather_facts: no
+    roles:
+      - rsyslog
+    tags:
+      - rsys

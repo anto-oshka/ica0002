@@ -1,0 +1,27 @@
+---
+- name: Add InfluxDB repo key
+  ansible.builtin.apt_key:
+    url: https://repos.influxdata.com/influxdb.key
+    state: present
+
+- name: Add InfluxDB repo
+  ansible.builtin.apt_repository:
+    repo: deb https://repos.influxdata.com/ubuntu trusty stable
+    state: present
+
+- name: Install InfluxDB
+  ansible.builtin.apt:
+    name: influxdb
+    state: latest
+
+- name: Run InfluxDB
+  ansible.builtin.service:
+    name: influxdb
+    state: started
+    enabled: yes
+
+- name: Upload file /etc/influxdb/influxdb.conf
+  ansible.builtin.copy:
+    src: influxdb.conf
+    dest: /etc/influxdb/influxdb.conf
+  notify: Restart Influx

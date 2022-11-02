@@ -52,8 +52,11 @@
     path: /var/lib/grafana/dashboards
     state: directory
 
-- name: Upload main dashboard 
+- name: Upload dashboards
   ansible.builtin.copy:
-    src: main.json
-    dest: /var/lib/grafana/dashboards/main.json
+    src: "{{ item }}.json"
+    dest: "/var/lib/grafana/dashboards/{{ item }}.json"
   notify: Restart Grafana
+  loop:
+    - main
+    - syslog
