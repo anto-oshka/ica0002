@@ -1,6 +1,6 @@
 ---
 - name: Create user backup
-  user:
+  ansible.builtin.user:
     name: backup
     shell: /bin/bash
     create_home: yes
@@ -11,22 +11,21 @@
     ssh_key_file: .ssh/id_rsa
 
 - name: Add backup server SSH key to the list of known hosts
-  template:
+  ansible.builtin.template:
     src: known_hosts
     dest: /home/backup/.ssh/known_hosts
     owner: backup
     mode: '0777'
     force: no
 
-
 - name: Create directory /home/backup/restore
-  file:
+  ansible.builtin.file:
     path: /home/backup/restore
     state: directory
     owner: backup
     mode: '0744'
 
 - name: Install Duplicity
-  apt:
+  ansible.builtin.apt:
     name: duplicity
     state: latest

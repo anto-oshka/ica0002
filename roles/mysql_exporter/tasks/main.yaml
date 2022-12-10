@@ -3,6 +3,7 @@
   ansible.builtin.apt:
     name: prometheus-mysqld-exporter
     state: latest
+  register: mysql_exporter_installed
 
 - name: Update my.cnf
   ansible.builtin.template:
@@ -10,6 +11,16 @@
     dest: /var/lib/prometheus/.my.cnf
   notify: Restart MySQL exporter
   #no_log: True
+
+- name: Update Prometheus exporter
+  copy:
+    src: prometheus-mysqld-exporter
+    dest: /etc/default/prometheus-mysqld-exporter
+  notify: Restart MySQL exporter
+  
+- ansible.builtin.pause:
+    seconds: 10
+  when: mysql_exporter_installed.changed
 
 - name: Run Prometheus MySQL exporter
   ansible.builtin.service:

@@ -27,7 +27,19 @@ mysql_backup_password: !vault |
           6438623637663865620a383564336539386339633138663738306639636335366239656163353461
           3834
 
+mysql_replication_user: replication
+
+mysql_replication_password: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          33366365666365653465313836386131373465653638666538303965613133383033366336393736
+          3731393033623938313232343139303238346134363936300a646565336537653165626235666331
+          39386431663836386335386363343965333164613831633631353662623137363561396633313135
+          3536643761373763630a636462613536616462653237613034396265353234376266386663323063
+          6362
+
+
 # DNS config
+
 forwarders:
   - 1.1.1.1
   - 8.8.8.8
@@ -40,7 +52,6 @@ localhost: 127.0.0.0/8
 startup_name: arcticoak
 domain_zone: arcticoak.io
 
-backup_server_ip_address: 192.168.42.132
 
 # Grafana
 grafana_password: !vault |
@@ -51,6 +62,12 @@ grafana_password: !vault |
           3439663738343636330a333731336164393230313235656631623833366534616532396164383338
           6631
 
+
 # Backups
+
+backup_server_ip_address: 192.168.42.132
 backup_server_ssh_key: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEu6pFFWyuRrl4WGFPQGElYN9txwTGm2wSntcpVAaN90
+
 git_user: anto-oshka
+
+node_id: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'].split('.')[-1] }}"
