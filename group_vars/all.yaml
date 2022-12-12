@@ -62,6 +62,7 @@ grafana_password: !vault |
           3439663738343636330a333731336164393230313235656631623833366534616532396164383338
           6631
 
+grafana_port: 3001
 
 # Backups
 
@@ -71,3 +72,5 @@ backup_server_ssh_key: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEu6pFFWyuRrl4WGFPQGE
 git_user: anto-oshka
 
 node_id: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'].split('.')[-1] }}"
+
+agama_port: 8000

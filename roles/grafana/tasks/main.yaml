@@ -1,63 +1,68 @@
 ---
-- name: Add Grafana keys
-  ansible.builtin.apt_key:
-    url: https://packages.grafana.com/gpg.key
-
-
-- name: Add Grafana repo
-  ansible.builtin.apt_repository:
-    repo: deb https://packages.grafana.com/enterprise/deb stable main
-
-- name: Install Grafana
-  ansible.builtin.apt:
-    name: grafana
-    state: latest
-  register: grafana_installed
-
-- name: Run Grafana
-  ansible.builtin.service:
-    name: grafana-server
-    state: started
-
-- name: Upload Grafana config
-  ansible.builtin.template:
-    src: grafana.ini.j2
-    dest: /etc/grafana/grafana.ini
-  notify: Restart Grafana
-
-- name: Pause
-  ansible.builtin.pause:
-    seconds: 10
-  when: grafana_installed.changed
-
-- name: Change password
-  ansible.builtin.shell:
-    cmd: "sudo grafana-cli admin reset-admin-password {{ grafana_password }}"
-  when: grafana_installed.changed
-
-- name: Upload Datasources config
-  ansible.builtin.template:
-    src: datasources.j2
-    dest: /etc/grafana/provisioning/datasources/main.yaml
-  notify: Restart Grafana
-
-- name: Upload Dashboards config
-  ansible.builtin.template:
-    src: dashboards.j2
-    dest: /etc/grafana/provisioning/dashboards/main.yaml
-  notify: Restart Grafana
-
-- name: Create directory /var/lib/grafana/dashboards
-  ansible.builtin.file:
-    path: /var/lib/grafana/dashboards
+- name: Create directories /opt/grafana/provisioning/dashboards,datasources
+  file:
+    path: "/opt/grafana/provisioning/{{ item }}"
     state: directory
+    recurse: yes
+  loop:
+    - dashboards
+    - datasources
 
-- name: Upload dashboards
-  ansible.builtin.copy:
-    src: "{{ item }}.json"
-    dest: "/var/lib/grafana/dashboards/{{ item }}.json"
+- name: Upload template /opt/grafana/grafana.ini
+  template:
+    src: grafana.ini.j2
+    dest: /opt/grafana/grafana.ini
+  #no_log: True
   notify: Restart Grafana
+
+- name: Upload templates
+  template:
+    src: "{{ item }}.j2"
+    dest: "/opt/grafana/provisioning/{{ item }}/default.yaml"
+  loop:
+    - dashboards
+    - datasources
+  notify: Restart Grafana
+
+# - name: Upload template /opt/grafana/provisioning/datasources/default.yaml
+#   template:
+#     src: datasources.j2
+#     dest: /opt/grafana/provisioning/datasources/default.yaml
+
+# - name: Upload template /opt/grafana/provisioning/dashboards/default.yaml
+#   template:
+#     src: dashboards.j2
+#     dest: /opt/grafana/provisioning/dashboards/default.yaml
+
+- name: Upload files
+  copy:
+    src: "{{ item }}.json"
+    dest: "/opt/grafana/provisioning/dashboards/{{ item }}.json"
   loop:
     - main
     - mysql
     - syslog
+
+# - name: Upload file /opt/grafana/provisioning/dashboards/main.json
+#   copy:
+#     src: main.json
+#     dest: /opt/grafana/provisioning/dashboards/main.json
+
+# - name: Upload file /opt/grafana/provisioning/dashboards/mysql.json
+#   copy:
+#     src: mysql.json
+#     dest: /opt/grafana/provisioning/dashboards/mysql.json
+
+# - name: Upload file /opt/grafana/provisioning/dashboards/syslog.json
+#   copy:
+#     src: mysql.json
+#     dest: /opt/grafana/provisioning/dashboards/syslog.json
+
+- name: Run Grafana Docker container
+  community.docker.docker_container:
+    container_default_behavior: no_defaults
+    name: grafana
+    image: grafana/grafana
+    published_ports: "{{ grafana_port }}:3000"
+    volumes: /opt/grafana:/etc/grafana
+    restart_policy: always

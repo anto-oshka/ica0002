@@ -9,6 +9,16 @@
       - node_exporter
     tags:
       - init
+  
+  - name: Docker
+    hosts:
+      - all
+    become: yes
+    gather_facts: no
+    roles:
+      - docker
+    tags:
+      - docker
 
   - name: Database Server # Install and configure MySQL, install MySQL exporter
     hosts: db_servers
@@ -83,7 +93,7 @@
       - influxdb_backup
     tags:
       - influx
-  
+
   - name: Grafana # Install and configure Grafana
     hosts:
       - monitoring_servers
