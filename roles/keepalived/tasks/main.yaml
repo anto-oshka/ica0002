@@ -1,0 +1,30 @@
+---
+- name: Create user keepalived_script
+  user:
+    name: keepalived_script
+    shell: /bin/bash
+    create_home: yes
+    home: /home/keepalived_script
+    
+- name: Install Keepalived
+  apt:
+    name: keepalived
+    state: latest
+
+- name: Run Keepalived
+  service:
+    name: keepalived
+    state: started
+
+- name: Upload file /usr/local/bin/vrrp_script
+  copy:
+    src: vrrp_script
+    dest: /usr/local/bin/vrrp_script
+    mode: 755
+  notify: Restart Keepalived
+
+- name: Upload template /etc/keepalived/keepalived.conf
+  template:
+    src: keepalived.conf.j2
+    dest: /etc/keepalived/keepalived.conf
+  notify: Restart Keepalived

@@ -24,16 +24,6 @@
     - datasources
   notify: Restart Grafana
 
-# - name: Upload template /opt/grafana/provisioning/datasources/default.yaml
-#   template:
-#     src: datasources.j2
-#     dest: /opt/grafana/provisioning/datasources/default.yaml
-
-# - name: Upload template /opt/grafana/provisioning/dashboards/default.yaml
-#   template:
-#     src: dashboards.j2
-#     dest: /opt/grafana/provisioning/dashboards/default.yaml
-
 - name: Upload files
   copy:
     src: "{{ item }}.json"
@@ -42,21 +32,6 @@
     - main
     - mysql
     - syslog
-
-# - name: Upload file /opt/grafana/provisioning/dashboards/main.json
-#   copy:
-#     src: main.json
-#     dest: /opt/grafana/provisioning/dashboards/main.json
-
-# - name: Upload file /opt/grafana/provisioning/dashboards/mysql.json
-#   copy:
-#     src: mysql.json
-#     dest: /opt/grafana/provisioning/dashboards/mysql.json
-
-# - name: Upload file /opt/grafana/provisioning/dashboards/syslog.json
-#   copy:
-#     src: mysql.json
-#     dest: /opt/grafana/provisioning/dashboards/syslog.json
 
 - name: Run Grafana Docker container
   community.docker.docker_container:

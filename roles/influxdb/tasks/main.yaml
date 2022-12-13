@@ -6,7 +6,7 @@
 
 - name: Add InfluxDB repo
   ansible.builtin.apt_repository:
-    repo: deb https://repos.influxdata.com/ubuntu trusty stable
+    repo: deb https://repos.influxdata.com/debian focal stable
     state: present
 
 - name: Install InfluxDB

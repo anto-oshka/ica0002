@@ -4,13 +4,13 @@
     name: telegraf
     state: latest
 
-- name: Run Telegraf
-  ansible.builtin.service:
-    name: telegraf
-    state: started
-
 - name: Update Telegraf configuration
   ansible.builtin.copy:
     src: telegraf.conf
     dest: /etc/telegraf/telegraf.conf
   notify: Restart Telegraf
+
+- name: Run Telegraf
+  ansible.builtin.service:
+    name: telegraf
+    state: started

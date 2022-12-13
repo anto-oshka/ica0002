@@ -8,24 +8,31 @@ datasources:
    {% for vm in groups['logging_servers'] -%}
    url: http://{{ vm }}:9090/prometheus
    {% endfor -%}
+   user:
+   password:
+   database:
    isDefault: true
    editable: true
 
  - name: InfluxDB-latency
    type: influxdb
    access: proxy
-   database: latency
    {% for vm in groups['logging_servers'] -%}
    url: http://{{ vm }}:8086
    {% endfor -%}
+   user:
+   password:
+   database: latency
    editable: true
 
  - name: InfluxDB-telegraf
    type: influxdb
    access: proxy
-   database: telegraf
    {% for vm in groups['logging_servers'] -%}
    url: http://{{ vm }}:8086
    {% endfor -%}
+   user:
+   password:
+   database: telegraf
    editable: true
 

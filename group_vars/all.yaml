@@ -73,4 +73,8 @@ git_user: anto-oshka
 
 node_id: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'].split('.')[-1] }}"
 
-agama_port: 8000
+# AGAMA ports
+agama_port_base: 8000
+agama_ports:
+  port_1: 1
+  port_2: 3
