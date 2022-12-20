@@ -7,7 +7,7 @@ $TTL	604800
 			 604800 )	; Negative Cache TTL
 ;
 {% for vm in groups['dns_servers'] %}
-{{ domain_zone}}.	IN	NS	{{ vm }}
+{{ domain_zone }}.	IN	NS	{{ vm }}
 {% endfor %}
 
 {% for vm in groups['all'] %}

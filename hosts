@@ -1,17 +1,24 @@
-anto-oshka-1 ansible_host=193.40.156.67 ansible_port=38022 ansible_ssh_user=ubuntu
-anto-oshka-2 ansible_host=193.40.156.67 ansible_port=37022 ansible_ssh_user=ubuntu
+anto-oshka-1 ansible_host=193.40.156.67 ansible_port=36222 ansible_ssh_user=ubuntu
+anto-oshka-2 ansible_host=193.40.156.67 ansible_port=31922 ansible_ssh_user=ubuntu
+anto-oshka-3 ansible_host=193.40.156.67 ansible_port=31122 ansible_ssh_user=ubuntu
 
-[web_servers]
+[application_stack]
 anto-oshka-1
-
-[db_servers]
 anto-oshka-2
 
-[dns_servers]
+[internal_services]
+anto-oshka-3
+
+# [dns_servers]
+# anto-oshka-2
+
+[dns_master]
+anto-oshka-3
+
+[dns_slaves]
+anto-oshka-1
 anto-oshka-2
 
-[logging_servers]
-anto-oshka-2
-
-[monitoring_servers]
-anto-oshka-2
+[dns_servers:children]
+dns_master
+dns_slaves

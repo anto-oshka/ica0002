@@ -27,7 +27,7 @@ scrape_configs:
   - job_name: mysql
     static_configs:
       - targets:
-        {% for vm in groups['db_servers'] -%}
+        {% for vm in groups['application_stack'] -%}
         - {{ vm }}:9104
         {% endfor %}
 
@@ -41,7 +41,7 @@ scrape_configs:
   - job_name: influx
     static_configs:
       - targets:
-        {% for vm in groups['logging_servers'] -%}
+        {% for vm in groups['internal_services'] -%}
         - {{ vm }}:9424
         {% endfor %}
 

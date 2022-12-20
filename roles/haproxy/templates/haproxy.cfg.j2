@@ -25,15 +25,15 @@ defaults
 	errorfile 504 /etc/haproxy/errors/504.http
 
 listen ha_agama
-    bind :88
-    {% for vm in groups['web_servers'] -%}
+    bind *:88
+    {% for vm in groups['application_stack'] -%}
     {% for agama_port in (agama_ports | dict2items) -%}
     server {{ vm }}-{{agama_port.value}} {{ vm }}:{{ agama_port_base + agama_port.value}} check
     {% endfor -%}
     {% endfor -%}
 
 listen stats
-    bind *:8404
+    bind *:9188
     stats enable
     stats uri /stats
     stats refresh 5s

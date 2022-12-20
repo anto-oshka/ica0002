@@ -5,8 +5,8 @@ datasources:
    type: prometheus
    access: proxy
    orgId: 1
-   {% for vm in groups['logging_servers'] -%}
-   url: http://{{ vm }}:9090/prometheus
+   {% for vm in groups['internal_services'] -%}
+   url: http://{{ ansible_host }}/prometheus
    {% endfor -%}
    user:
    password:
@@ -17,7 +17,7 @@ datasources:
  - name: InfluxDB-latency
    type: influxdb
    access: proxy
-   {% for vm in groups['logging_servers'] -%}
+   {% for vm in groups['internal_services'] -%}
    url: http://{{ vm }}:8086
    {% endfor -%}
    user:
@@ -28,7 +28,7 @@ datasources:
  - name: InfluxDB-telegraf
    type: influxdb
    access: proxy
-   {% for vm in groups['logging_servers'] -%}
+   {% for vm in groups['internal_services'] -%}
    url: http://{{ vm }}:8086
    {% endfor -%}
    user:

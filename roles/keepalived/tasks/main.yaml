@@ -11,15 +11,10 @@
     name: keepalived
     state: latest
 
-- name: Run Keepalived
-  service:
-    name: keepalived
-    state: started
-
-- name: Upload file /usr/local/bin/vrrp_script
+- name: Upload vrrp_script
   copy:
     src: vrrp_script
-    dest: /usr/local/bin/vrrp_script
+    dest: /home/keepalived_script/vrrp_script
     mode: 755
   notify: Restart Keepalived
 
@@ -28,3 +23,9 @@
     src: keepalived.conf.j2
     dest: /etc/keepalived/keepalived.conf
   notify: Restart Keepalived
+
+- name: Run Keepalived
+  service:
+    name: keepalived
+    state: started
+    enabled: yes

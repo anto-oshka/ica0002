@@ -9,14 +9,14 @@ server {
         proxy_pass http://localhost:9113/metrics;
     }
 
-    {% if inventory_hostname in groups['web_servers'] -%}
+    {% if inventory_hostname in groups['application_stack'] -%}
     location / {
         proxy_pass http://localhost:8001;
         proxy_set_header Host $http_host;
     }
     {% endif %}
 
-    {% if inventory_hostname in groups['logging_servers'] -%}
+    {% if inventory_hostname in groups['internal_services'] -%}
     location /prometheus {
         proxy_pass http://localhost:9090;
     }
@@ -26,7 +26,7 @@ server {
     }
     {% endif %}
 
-    {% if inventory_hostname in groups['db_servers'] -%}
+    {% if inventory_hostname in groups['application_stack'] -%}
     location /mysql-metrics {
         proxy_pass http://localhost:9104/metrics;
     }
@@ -38,14 +38,14 @@ server {
     }
     {% endif %}
 
-    {% if inventory_hostname in groups['monitoring_servers'] -%}
+    {% if inventory_hostname in groups['internal_services'] -%}
     location /grafana {
         proxy_set_header Host $http_host;
         proxy_pass http://localhost:{{ grafana_port }};
     }
     {% endif %}
 
-    {% if inventory_hostname in groups['web_servers'] -%}
+    {% if inventory_hostname in groups['application_stack'] -%}
     location /haproxy-metrics {
         proxy_pass http://localhost:8404/stats;
     }

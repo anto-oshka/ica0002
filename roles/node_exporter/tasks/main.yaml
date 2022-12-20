@@ -3,3 +3,9 @@
   ansible.builtin.apt:
     name: prometheus-node-exporter
     state: latest
+
+- name: Run Node Exporter
+  ansible.builtin.service:
+    name: prometheus-node-exporter
+    state: started
+    enabled: yes
