@@ -12,7 +12,7 @@ anto-oshka-3
 # [dns_servers]
 # anto-oshka-2
 
-[dns_master]
+[dns_masters]
 anto-oshka-3
 
 [dns_slaves]
@@ -20,5 +20,5 @@ anto-oshka-1
 anto-oshka-2
 
 [dns_servers:children]
-dns_master
+dns_masters
 dns_slaves
