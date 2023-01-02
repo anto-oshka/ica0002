@@ -3,6 +3,7 @@
   ansible.builtin.apt: 
     name:
       - bind9
+      - python3-dnspython
     state: latest
 
 - name: Run Bind9
@@ -16,16 +17,24 @@
     dest: /etc/bind/named.conf.options
   notify: Restart Bind
   #no_log: True
-
-- name: "Upload template /var/cache/bind/db.{{ startup_name }}"
-  ansible.builtin.template:
-    src: db.domain
-    dest: "/var/cache/bind/db.{{ startup_name }}"
-    #force: no
-  notify: Reload DB
       
 - name: Upload template /etc/bind/named.conf.local
   ansible.builtin.template:
     src: named.conf.local.j2
     dest: /etc/bind/named.conf.local
   notify: Restart Bind
+
+- name: "Upload template /var/cache/bind/db.{{ startup_name }}"
+  when: inventory_hostname in groups['dns_masters']
+  ansible.builtin.template:
+    src: db.domain
+    dest: "/var/cache/bind/db.{{ startup_name }}"
+    force: no
+  notify: Reload DB
+
+- name: Upload db.reverse
+  when: inventory_hostname in groups['dns_masters']
+  ansible.builtin.template:
+    src: db.reverse
+    dest: /var/cache/bind/db.reverse
+  notify: Reload DB

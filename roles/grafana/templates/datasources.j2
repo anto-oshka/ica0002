@@ -6,7 +6,7 @@ datasources:
    access: proxy
    orgId: 1
    {% for vm in groups['internal_services'] -%}
-   url: http://{{ ansible_host }}/prometheus
+   url: http://{{ vm }}/prometheus
    {% endfor -%}
    user:
    password:

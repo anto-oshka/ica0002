@@ -28,6 +28,15 @@
   tags:
     - dns
 
+- name: DNS records
+  hosts: dns_masters
+  become: yes
+  gather_facts: no
+  roles:
+    - dns_records
+  tags:
+    - drec
+
 - name: systemd-resolved
   hosts: all
   become: yes

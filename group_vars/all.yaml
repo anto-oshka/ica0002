@@ -69,19 +69,19 @@ dns_transfer_key: !vault |
           64653438663262653932303632663966363930393166353739663432393039373531386431656430
           6263376335643936613532656430343130346430343665373932
 dns_a_records:
-  backup: 192.168.42.156
+  backup: 192.168.42.132
 
 dns_cname_records:
-  grafana: "{{ groups['grafana'][0] }}"
-  influxdb: "{{ groups['influx'][0] }}"
-  lb1: "{{ groups['haproxy'][0] }}"
-  lb2: "{{ groups['haproxy'][1] }}"
-  mysql1: "{{ groups['db_servers'][0] }}"
-  mysql2: "{{ groups['db_servers'][1] }}"
+  grafana: "{{ groups['internal_services'][0] }}"
+  influxdb: "{{ groups['internal_services'][0] }}"
+  lb1: "{{ groups['application_stack'][0] }}"
+  lb2: "{{ groups['application_stack'][1] }}"
+  mysql1: "{{ groups['application_stack'][0] }}"
+  mysql2: "{{ groups['application_stack'][1] }}"
   ns1: "{{ groups['dns_servers'][0] }}"
-  prometheus: "{{ groups['logging_servers'][0] }}"
-  web1: "{{ groups['web_servers'][0] }}"
-  web2: "{{ groups['web_servers'][1] }}"
+  prometheus: "{{ groups['internal_services'][0] }}"
+  web1: "{{ groups['application_stack'][0] }}"
+  web2: "{{ groups['application_stack'][1] }}"
 
 
 # Grafana

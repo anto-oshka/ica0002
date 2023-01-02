@@ -24,7 +24,7 @@
   notify: Daemon reload
 
 - name: Upload pinger config
-  ansible.builtin.copy:
+  ansible.builtin.template:
     src: pinger.conf
     dest: /etc/pinger/pinger.conf
   notify: Daemon reload
