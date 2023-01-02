@@ -1,6 +1,6 @@
-anto-oshka-1 ansible_host=193.40.156.67 ansible_port=36222 ansible_ssh_user=ubuntu
-anto-oshka-2 ansible_host=193.40.156.67 ansible_port=31922 ansible_ssh_user=ubuntu
-anto-oshka-3 ansible_host=193.40.156.67 ansible_port=31122 ansible_ssh_user=ubuntu
+anto-oshka-1 ansible_host=193.40.156.67 ansible_port=44522 ansible_ssh_user=ubuntu
+anto-oshka-2 ansible_host=193.40.156.67 ansible_port=43722 ansible_ssh_user=ubuntu
+anto-oshka-3 ansible_host=193.40.156.67 ansible_port=36022 ansible_ssh_user=ubuntu
 
 [application_stack]
 anto-oshka-1
