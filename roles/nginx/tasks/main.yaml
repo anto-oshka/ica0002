@@ -4,14 +4,16 @@
     name: nginx
     state: latest
 
+- name: Modify Nginx sites-enabled file
+  ansible.builtin.template:
+    src: default.j2
+    dest: /etc/nginx/sites-enabled/default
+  notify:
+    - Restart Nginx
+    - Restart Nginx exporter
+
 - name: Run Nginx
   ansible.builtin.service:
     name: nginx
     state: started
     enabled: yes
-
-- name: Modify Nginx sites-enabled file
-  ansible.builtin.template:
-    src: default.j2
-    dest: /etc/nginx/sites-enabled/default
-  notify: Restart Nginx

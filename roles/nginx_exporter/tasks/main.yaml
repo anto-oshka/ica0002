@@ -9,10 +9,10 @@
     name: prometheus-nginx-exporter
     state: started
 
-- name: Add redirect
-  ansible.builtin.template:
-    src: exporter.j2
-    dest: /etc/nginx/sites-enabled/exporter
-  notify:
-    - Restart Nginx
-    - Restart Nginx exporter
+# - name: Add redirect
+#   ansible.builtin.template:
+#     src: exporter.j2
+#     dest: /etc/nginx/sites-enabled/exporter
+#   notify:
+#     - Restart Nginx
+#     - Restart Nginx exporter

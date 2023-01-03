@@ -51,8 +51,8 @@
   become: yes
   gather_facts: no
   roles:
-    - nginx
     - nginx_exporter
+    - nginx
   tags:
     - nginx
 
@@ -147,12 +147,3 @@
     - haproxy_exporter
   tags:
     - ha
-
-- name: hatemp
-  hosts: application_stack
-  become: yes
-  roles:
-    - haproxy
-    - haproxy_exporter
-  tags:
-    - ht

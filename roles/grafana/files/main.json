@@ -3,7 +3,10 @@
       "list": [
         {
           "builtIn": 1,
-          "datasource": "-- Grafana --",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
           "enable": true,
           "hide": true,
           "iconColor": "rgba(0, 211, 255, 1)",
@@ -19,15 +22,18 @@
       ]
     },
     "editable": true,
-    "gnetId": null,
+    "fiscalYearStartMonth": 0,
     "graphTooltip": 0,
     "links": [],
+    "liveNow": false,
     "panels": [
       {
-        "datasource": null,
+        "datasource": {
+          "type": "prometheus",
+          "uid": "PBFA97CFB590B2093"
+        },
         "fieldConfig": {
           "defaults": {
-            "custom": {},
             "links": [],
             "mappings": [],
             "max": 100,
@@ -62,31 +68,36 @@
             "calcs": [
               "mean"
             ],
+            "fields": "",
             "values": false
           },
           "showThresholdLabels": false,
           "showThresholdMarkers": true
         },
-        "pluginVersion": "7.0.0",
+        "pluginVersion": "9.3.2",
         "targets": [
           {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "PBFA97CFB590B2093"
+            },
             "expr": "100 - (avg by (instance) (irate(node_cpu_seconds_total{job=\"linux\",mode=\"idle\"}[5m])) * 100)",
             "interval": "",
             "legendFormat": "{{ instance }}",
             "refId": "A"
           }
         ],
-        "timeFrom": null,
-        "timeShift": null,
         "title": "CPU Load",
         "transformations": [],
         "type": "gauge"
       },
       {
-        "datasource": null,
+        "datasource": {
+          "type": "prometheus",
+          "uid": "PBFA97CFB590B2093"
+        },
         "fieldConfig": {
           "defaults": {
-            "custom": {},
             "mappings": [],
             "max": 100,
             "min": 0,
@@ -120,52 +131,48 @@
             "calcs": [
               "lastNotNull"
             ],
+            "fields": "",
             "values": false
           },
           "showThresholdLabels": false,
           "showThresholdMarkers": true
         },
-        "pluginVersion": "7.0.0",
+        "pluginVersion": "9.3.2",
         "targets": [
           {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "PBFA97CFB590B2093"
+            },
             "expr": "100 * (1 - ((avg_over_time(node_memory_MemFree_bytes{job=~\"linux\"}[30d]) + avg_over_time(node_memory_Cached_bytes{job=~\"linux\"}[30d]) + avg_over_time(node_memory_Buffers_bytes{job=~\"linux\"}[30d])) / avg_over_time(node_memory_MemTotal_bytes{job=~\"linux\"}[30d])))",
             "interval": "",
             "legendFormat": "{{ instance }}",
             "refId": "A"
           }
         ],
-        "timeFrom": null,
-        "timeShift": null,
         "title": "Memory Load",
         "type": "gauge"
       },
       {
-        "datasource": null,
+        "datasource": {
+          "type": "prometheus",
+          "uid": "PBFA97CFB590B2093"
+        },
         "fieldConfig": {
           "defaults": {
-            "custom": {},
             "mappings": [
               {
                 "options": {
                   "0": {
+                    "index": 0,
                     "text": "DOWN"
                   },
                   "1": {
+                    "index": 1,
                     "text": "UP"
                   }
                 },
-                "text": "UP",
-                "type": 1,
-                "value": "1"
-              },
-              {
-                "from": "",
-                "id": null,
-                "operator": "",
-                "text": "DOWN",
-                "to": "",
-                "type": 1,
-                "value": "0"
+                "type": "value"
               }
             ],
             "thresholds": {
@@ -198,19 +205,25 @@
           "orientation": "auto",
           "reduceOptions": {
             "calcs": [
-              "lastNotNull"
+              "last"
             ],
             "fields": "",
             "values": false
           },
-          "textMode": "value"
+          "textMode": "value_and_name"
         },
-        "pluginVersion": "7.0.0",
+        "pluginVersion": "9.3.2",
         "targets": [
           {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "PBFA97CFB590B2093"
+            },
+            "editorMode": "code",
             "expr": "mysql_up",
             "interval": "",
-            "legendFormat": "",
+            "legendFormat": "{{instance}}",
+            "range": true,
             "refId": "A"
           }
         ],
@@ -222,10 +235,12 @@
         "bars": false,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": {
+          "type": "prometheus",
+          "uid": "PBFA97CFB590B2093"
+        },
         "fieldConfig": {
           "defaults": {
-            "custom": {},
             "links": []
           },
           "overrides": []
@@ -253,11 +268,10 @@
         "linewidth": 1,
         "nullPointMode": "null",
         "options": {
-          "alertThreshold": true,
-          "dataLinks": []
+          "alertThreshold": true
         },
         "percentage": false,
-        "pluginVersion": "8.3.2",
+        "pluginVersion": "9.3.2",
         "pointradius": 2,
         "points": false,
         "renderer": "flot",
@@ -267,6 +281,10 @@
         "steppedLine": false,
         "targets": [
           {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "PBFA97CFB590B2093"
+            },
             "expr": "rate(mysql_global_status_commands_total{command=\"select\"}[1m])",
             "interval": "",
             "legendFormat": "",
@@ -274,9 +292,7 @@
           }
         ],
         "thresholds": [],
-        "timeFrom": null,
         "timeRegions": [],
-        "timeShift": null,
         "title": "MySQL Q/min",
         "tooltip": {
           "shared": true,
@@ -285,9 +301,7 @@
         },
         "type": "graph",
         "xaxis": {
-          "buckets": null,
           "mode": "time",
-          "name": null,
           "show": true,
           "values": []
         },
@@ -308,32 +322,25 @@
         }
       },
       {
-        "datasource": null,
+        "datasource": {
+          "type": "prometheus",
+          "uid": "PBFA97CFB590B2093"
+        },
         "fieldConfig": {
           "defaults": {
-            "custom": {},
             "mappings": [
               {
                 "options": {
                   "0": {
+                    "index": 0,
                     "text": "DOWN"
                   },
                   "1": {
+                    "index": 1,
                     "text": "UP"
                   }
                 },
-                "text": "UP",
-                "type": 1,
-                "value": "1"
-              },
-              {
-                "from": "",
-                "id": null,
-                "operator": "",
-                "text": "DOWN",
-                "to": "",
-                "type": 1,
-                "value": "0"
+                "type": "value"
               }
             ],
             "thresholds": {
@@ -366,19 +373,25 @@
           "orientation": "auto",
           "reduceOptions": {
             "calcs": [
-              "lastNotNull"
+              "last"
             ],
             "fields": "",
             "values": false
           },
-          "textMode": "value"
+          "textMode": "value_and_name"
         },
-        "pluginVersion": "7.0.0",
+        "pluginVersion": "9.3.2",
         "targets": [
           {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "PBFA97CFB590B2093"
+            },
+            "editorMode": "code",
             "expr": "bind_up",
             "interval": "",
-            "legendFormat": "",
+            "legendFormat": "{{instance}}",
+            "range": true,
             "refId": "A"
           }
         ],
@@ -390,10 +403,12 @@
         "bars": false,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": {
+          "type": "prometheus",
+          "uid": "PBFA97CFB590B2093"
+        },
         "fieldConfig": {
           "defaults": {
-            "custom": {},
             "links": []
           },
           "overrides": []
@@ -421,11 +436,10 @@
         "linewidth": 1,
         "nullPointMode": "null",
         "options": {
-          "alertThreshold": true,
-          "dataLinks": []
+          "alertThreshold": true
         },
         "percentage": false,
-        "pluginVersion": "8.3.2",
+        "pluginVersion": "9.3.2",
         "pointradius": 2,
         "points": false,
         "renderer": "flot",
@@ -435,6 +449,10 @@
         "steppedLine": false,
         "targets": [
           {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "PBFA97CFB590B2093"
+            },
             "expr": "avg by (instance) (rate(bind_resolver_queries_total[1m]))",
             "interval": "",
             "legendFormat": "",
@@ -442,9 +460,7 @@
           }
         ],
         "thresholds": [],
-        "timeFrom": null,
         "timeRegions": [],
-        "timeShift": null,
         "title": "Bind9 Q/min",
         "tooltip": {
           "shared": true,
@@ -453,9 +469,7 @@
         },
         "type": "graph",
         "xaxis": {
-          "buckets": null,
           "mode": "time",
-          "name": null,
           "show": true,
           "values": []
         },
@@ -476,32 +490,25 @@
         }
       },
       {
-        "datasource": null,
+        "datasource": {
+          "type": "prometheus",
+          "uid": "PBFA97CFB590B2093"
+        },
         "fieldConfig": {
           "defaults": {
-            "custom": {},
             "mappings": [
               {
                 "options": {
                   "0": {
+                    "index": 0,
                     "text": "DOWN"
                   },
                   "1": {
+                    "index": 1,
                     "text": "UP"
                   }
                 },
-                "text": "UP",
-                "type": 1,
-                "value": "1"
-              },
-              {
-                "from": "",
-                "id": null,
-                "operator": "",
-                "text": "DOWN",
-                "to": "",
-                "type": 1,
-                "value": "-1"
+                "type": "value"
               }
             ],
             "thresholds": {
@@ -534,16 +541,20 @@
           "orientation": "auto",
           "reduceOptions": {
             "calcs": [
-              "lastNotNull"
+              "last"
             ],
             "fields": "",
             "values": false
           },
-          "textMode": "value"
+          "textMode": "value_and_name"
         },
-        "pluginVersion": "7.0.0",
+        "pluginVersion": "9.3.2",
         "targets": [
           {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "PBFA97CFB590B2093"
+            },
             "expr": "nginx_up",
             "interval": "",
             "legendFormat": "{{ instance }}",
@@ -558,10 +569,12 @@
         "bars": false,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": {
+          "type": "prometheus",
+          "uid": "PBFA97CFB590B2093"
+        },
         "fieldConfig": {
           "defaults": {
-            "custom": {},
             "links": []
           },
           "overrides": []
@@ -589,11 +602,10 @@
         "linewidth": 1,
         "nullPointMode": "null",
         "options": {
-          "alertThreshold": true,
-          "dataLinks": []
+          "alertThreshold": true
         },
         "percentage": false,
-        "pluginVersion": "8.3.2",
+        "pluginVersion": "9.3.2",
         "pointradius": 2,
         "points": false,
         "renderer": "flot",
@@ -603,6 +615,10 @@
         "steppedLine": false,
         "targets": [
           {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "PBFA97CFB590B2093"
+            },
             "expr": "rate(nginx_http_requests_total[1m])",
             "interval": "",
             "legendFormat": "",
@@ -610,9 +626,7 @@
           }
         ],
         "thresholds": [],
-        "timeFrom": null,
         "timeRegions": [],
-        "timeShift": null,
         "title": "Nginx Q/min",
         "tooltip": {
           "shared": true,
@@ -621,9 +635,7 @@
         },
         "type": "graph",
         "xaxis": {
-          "buckets": null,
           "mode": "time",
-          "name": null,
           "show": true,
           "values": []
         },
@@ -644,28 +656,325 @@
         }
       },
       {
-        "datasource": null,
+        "datasource": {
+          "type": "prometheus",
+          "uid": "PBFA97CFB590B2093"
+        },
         "fieldConfig": {
           "defaults": {
-            "custom": {},
+            "color": {
+              "mode": "thresholds"
+            },
             "mappings": [
               {
-                "from": "",
-                "id": 0,
-                "operator": "",
-                "text": "UP",
-                "to": "",
-                "type": 1,
-                "value": "1"
-              },
+                "options": {
+                  "0": {
+                    "index": 0,
+                    "text": "DOWN"
+                  },
+                  "1": {
+                    "index": 1,
+                    "text": "UP"
+                  }
+                },
+                "type": "value"
+              }
+            ],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "green",
+                  "value": 0.5
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 5,
+          "w": 3,
+          "x": 0,
+          "y": 23
+        },
+        "id": 22,
+        "options": {
+          "colorMode": "value",
+          "graphMode": "none",
+          "justifyMode": "center",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "last"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "value_and_name"
+        },
+        "pluginVersion": "9.3.2",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "PBFA97CFB590B2093"
+            },
+            "editorMode": "builder",
+            "expr": "haproxy_up",
+            "legendFormat": "{{instance}}",
+            "range": true,
+            "refId": "A"
+          }
+        ],
+        "title": "HAProxy",
+        "type": "stat"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "PBFA97CFB590B2093"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [
               {
-                "from": "",
-                "id": 1,
-                "operator": "",
-                "text": "DOWN",
-                "to": "",
-                "type": 1,
-                "value": "0"
+                "options": {
+                  "0": {
+                    "index": 0,
+                    "text": "DOWN"
+                  },
+                  "1": {
+                    "index": 1,
+                    "text": "UP"
+                  }
+                },
+                "type": "value"
+              }
+            ],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "green",
+                  "value": 0.5
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 5,
+          "w": 21,
+          "x": 3,
+          "y": 23
+        },
+        "id": 28,
+        "options": {
+          "colorMode": "value",
+          "graphMode": "none",
+          "justifyMode": "center",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "last"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "auto"
+        },
+        "pluginVersion": "9.3.2",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "PBFA97CFB590B2093"
+            },
+            "editorMode": "builder",
+            "expr": "min by(server) (haproxy_server_up)",
+            "legendFormat": "{{server}}",
+            "range": true,
+            "refId": "A"
+          }
+        ],
+        "title": "HA servers",
+        "type": "stat"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "PBFA97CFB590B2093"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [
+              {
+                "options": {
+                  "0": {
+                    "index": 0,
+                    "text": "DOWN"
+                  },
+                  "1": {
+                    "index": 1,
+                    "text": "UP"
+                  }
+                },
+                "type": "value"
+              }
+            ],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "green",
+                  "value": 0.5
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 5,
+          "w": 3,
+          "x": 0,
+          "y": 28
+        },
+        "id": 24,
+        "options": {
+          "colorMode": "value",
+          "graphMode": "none",
+          "justifyMode": "center",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "last"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "value_and_name"
+        },
+        "pluginVersion": "9.3.2",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "PBFA97CFB590B2093"
+            },
+            "editorMode": "builder",
+            "expr": "keepalived_up",
+            "legendFormat": "{{instance}}",
+            "range": true,
+            "refId": "A"
+          }
+        ],
+        "title": "Keepalived",
+        "type": "stat"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "PBFA97CFB590B2093"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 5,
+          "w": 21,
+          "x": 3,
+          "y": 28
+        },
+        "id": 26,
+        "options": {
+          "colorMode": "value",
+          "graphMode": "none",
+          "justifyMode": "center",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "last"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "auto"
+        },
+        "pluginVersion": "9.3.2",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "PBFA97CFB590B2093"
+            },
+            "editorMode": "builder",
+            "expr": "keepalived_vrrp_state",
+            "legendFormat": "{{instance}}",
+            "range": true,
+            "refId": "A"
+          }
+        ],
+        "title": "Keepalived VRRP",
+        "type": "stat"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "PBFA97CFB590B2093"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "mappings": [
+              {
+                "options": {
+                  "0": {
+                    "text": "DOWN"
+                  },
+                  "1": {
+                    "text": "UP"
+                  }
+                },
+                "type": "value"
               }
             ],
             "thresholds": {
@@ -688,32 +997,38 @@
           "h": 5,
           "w": 3,
           "x": 0,
-          "y": 23
+          "y": 33
         },
         "id": 20,
         "options": {
           "colorMode": "value",
           "graphMode": "none",
-          "justifyMode": "auto",
+          "justifyMode": "center",
           "orientation": "auto",
           "reduceOptions": {
             "calcs": [
-              "lastNotNull"
+              "last"
             ],
+            "fields": "",
             "values": false
-          }
+          },
+          "textMode": "value_and_name"
         },
-        "pluginVersion": "7.0.0",
+        "pluginVersion": "9.3.2",
         "targets": [
           {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "PBFA97CFB590B2093"
+            },
+            "editorMode": "code",
             "expr": "influxdb_exporter_stats_query_success",
             "interval": "",
-            "legendFormat": "",
+            "legendFormat": "{{instance}}",
+            "range": true,
             "refId": "A"
           }
         ],
-        "timeFrom": null,
-        "timeShift": null,
         "title": "Influx",
         "type": "stat"
       },
@@ -722,10 +1037,13 @@
         "bars": false,
         "dashLength": 10,
         "dashes": false,
-        "datasource": "InfluxDB-latency",
+        "datasource": {
+          "type": "influxdb",
+          "uid": "P29B7D75015DE2922"
+        },
         "fieldConfig": {
           "defaults": {
-            "custom": {}
+            "links": []
           },
           "overrides": []
         },
@@ -735,7 +1053,7 @@
           "h": 5,
           "w": 21,
           "x": 3,
-          "y": 23
+          "y": 33
         },
         "hiddenSeries": false,
         "id": 18,
@@ -752,9 +1070,10 @@
         "linewidth": 1,
         "nullPointMode": "null",
         "options": {
-          "dataLinks": []
+          "alertThreshold": true
         },
         "percentage": false,
+        "pluginVersion": "9.3.2",
         "pointradius": 2,
         "points": false,
         "renderer": "flot",
@@ -765,6 +1084,10 @@
         "targets": [
           {
             "alias": "",
+            "datasource": {
+              "type": "influxdb",
+              "uid": "P29B7D75015DE2922"
+            },
             "groupBy": [
               {
                 "params": [
@@ -792,9 +1115,7 @@
           }
         ],
         "thresholds": [],
-        "timeFrom": null,
         "timeRegions": [],
-        "timeShift": null,
         "title": "Latency",
         "tooltip": {
           "shared": true,
@@ -803,38 +1124,29 @@
         },
         "type": "graph",
         "xaxis": {
-          "buckets": null,
           "mode": "time",
-          "name": null,
           "show": true,
           "values": []
         },
         "yaxes": [
           {
             "format": "short",
-            "label": null,
             "logBase": 1,
-            "max": null,
-            "min": null,
             "show": true
           },
           {
             "format": "short",
-            "label": null,
             "logBase": 1,
-            "max": null,
-            "min": null,
             "show": true
           }
         ],
         "yaxis": {
-          "align": false,
-          "alignLevel": null
+          "align": false
         }
       }
     ],
-    "refresh": "5s",
-    "schemaVersion": 25,
+    "refresh": "10s",
+    "schemaVersion": 37,
     "style": "dark",
     "tags": [],
     "templating": {
@@ -860,5 +1172,6 @@
     "timezone": "",
     "title": "Main",
     "uid": "MPyKjUO7k",
-    "version": 1
+    "version": 1,
+    "weekStart": ""
   }
