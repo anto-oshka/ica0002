@@ -15,7 +15,7 @@
   ansible.builtin.copy:
     src: vrrp_script
     dest: /home/keepalived_script/vrrp_script
-    mode: 755
+    mode: 0755
   notify: Restart Keepalived
 
 - name: Upload template /etc/keepalived/keepalived.conf
