@@ -1,6 +1,6 @@
 ---
 - name: Set A records
-  nsupdate:
+  ansible.builtin.nsupdate:
     key_name: "dns_update_key"
     key_algorithm: "hmac-sha256"
     key_secret: "{{ dns_update_key }}"
@@ -11,10 +11,10 @@
     value: "{{ item.value }}"
   loop: "{{ dns_a_records | dict2items }}"
   run_once: True
-  # no_log: True
+  no_log: True
 
 - name: Set CNAME records
-  nsupdate:
+  ansible.builtin.nsupdate:
     key_name: "dns_update_key"
     key_algorithm: "hmac-sha256"
     key_secret: "{{ dns_update_key }}"
@@ -25,4 +25,4 @@
     value: "{{ item.value }}"
   loop: "{{ dns_cname_records | dict2items }}"
   run_once: True
-  # no_log: True
+  no_log: True

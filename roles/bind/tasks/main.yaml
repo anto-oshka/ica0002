@@ -10,13 +10,14 @@
   ansible.builtin.service:
     name: bind9
     state: started
+    enabled: yes
 
 - name: Upload template /etc/bind/named.conf.options
   ansible.builtin.template:
     src: named.conf.options.j2
     dest: /etc/bind/named.conf.options
   notify: Restart Bind
-  #no_log: True
+  no_log: True
       
 - name: Upload template /etc/bind/named.conf.local
   ansible.builtin.template:
@@ -27,7 +28,7 @@
 - name: "Upload template /var/cache/bind/db.{{ startup_name }}"
   when: inventory_hostname in groups['dns_masters']
   ansible.builtin.template:
-    src: db.domain
+    src: db.domain.j2
     dest: "/var/cache/bind/db.{{ startup_name }}"
     force: no
   notify: Reload DB

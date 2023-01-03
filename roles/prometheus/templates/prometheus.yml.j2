@@ -21,40 +21,40 @@ scrape_configs:
     static_configs:
       - targets:
         {% for vm in groups['dns_servers'] -%}
-        - {{ vm }}:9119
+        - {{ vm }}:{{ bind_exporter_port }}
         {% endfor %}
 
   - job_name: mysql
     static_configs:
       - targets:
         {% for vm in groups['application_stack'] -%}
-        - {{ vm }}:9104
+        - {{ vm }}:{{ mysql_exporter_port }}
         {% endfor %}
 
   - job_name: nginx
     static_configs:
       - targets:
         {% for vm in groups['all'] -%}
-        - {{ vm }}:9113
+        - {{ vm }}:{{ nginx_exporter_port }}
         {% endfor %}
 
   - job_name: influx
     static_configs:
       - targets:
         {% for vm in groups['internal_services'] -%}
-        - {{ vm }}:9424
+        - {{ vm }}:{{ influxdb_exporter_port }}
         {% endfor %}
 
   - job_name: haproxy
     static_configs:
       - targets:
         {% for vm in groups['all'] -%}
-        - {{ vm }}:9101
+        - {{ vm }}:{{ haproxy_exporter_port }}
         {% endfor %}
 
   - job_name: keepalived
     static_configs:
       - targets:
         {% for vm in groups['all'] -%}
-        - {{ vm }}:9165
+        - {{ vm }}:{{ keepalived_exporter_port }}
         {% endfor %}

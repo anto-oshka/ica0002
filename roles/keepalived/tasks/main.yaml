@@ -1,31 +1,31 @@
 ---
 - name: Create user keepalived_script
-  user:
+  ansible.builtin.user:
     name: keepalived_script
     shell: /bin/bash
     create_home: yes
     home: /home/keepalived_script
     
 - name: Install Keepalived
-  apt:
+  ansible.builtin.apt:
     name: keepalived
     state: latest
 
 - name: Upload vrrp_script
-  copy:
+  ansible.builtin.copy:
     src: vrrp_script
     dest: /home/keepalived_script/vrrp_script
     mode: 755
   notify: Restart Keepalived
 
 - name: Upload template /etc/keepalived/keepalived.conf
-  template:
+  ansible.builtin.template:
     src: keepalived.conf.j2
     dest: /etc/keepalived/keepalived.conf
   notify: Restart Keepalived
 
 - name: Run Keepalived
-  service:
+  ansible.builtin.service:
     name: keepalived
     state: started
     enabled: yes

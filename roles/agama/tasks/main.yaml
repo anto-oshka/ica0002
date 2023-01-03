@@ -1,16 +1,16 @@
 ---
 - name: Creat directory /opt/agama
-  file:
+  ansible.builtin.file:
     path: /opt/agama
     state: directory
 
 - name: Download Agama Docker container
-  get_url:
+  ansible.builtin.get_url:
     url: https://raw.githubusercontent.com/hudolejev/agama/master/Dockerfile
     dest: /opt/agama/Dockerfile
 
 - name: Download Agama
-  get_url:
+  ansible.builtin.get_url:
     url: https://raw.githubusercontent.com/hudolejev/agama/master/agama.py
     dest: /opt/agama
 
@@ -31,4 +31,4 @@
     env:
       AGAMA_DATABASE_URI: "mysql+pymysql://{{ mysql_user }}:{{ mysql_password }}@{{ mysql_host }}/{{ mysql_database }}"
   loop: "{{ agama_ports | dict2items }}"
-  #no_log: True
+  no_log: True

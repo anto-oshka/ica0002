@@ -10,7 +10,7 @@
     src: my.cnf.j2
     dest: /var/lib/prometheus/.my.cnf
   notify: Restart MySQL exporter
-  #no_log: True
+  no_log: True
 
 - name: Update Prometheus exporter
   copy:

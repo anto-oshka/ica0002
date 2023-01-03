@@ -1,16 +1,17 @@
 ---
 - name: Install HAProxy
-  apt:
+  ansible.builtin.apt:
     name: haproxy
     state: latest
 
 - name: Run HAProxy
-  service:
+  ansible.builtin.service:
     name: haproxy
     state: started
+    enabled: yes
 
 - name: Upload template /etc/haproxy/haproxy.cfg
-  template:
+  ansible.builtin.template:
     src: haproxy.cfg.j2
     dest: /etc/haproxy/haproxy.cfg
   notify: Restart HAProxy

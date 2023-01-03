@@ -10,7 +10,7 @@
     state: started
 
 - name: Upload file /etc/default/prometheus-haproxy-exporter
-  copy:
+  template:
     src: prometheus-haproxy-exporter
     dest: /etc/default/prometheus-haproxy-exporter
   notify: Restart HAProxy exporter

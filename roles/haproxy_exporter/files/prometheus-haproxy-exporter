@@ -1,1 +1,0 @@
-ARGS="--haproxy.scrape-uri=http://localhost:9188/stats;csv"

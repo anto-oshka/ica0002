@@ -1,4 +1,4 @@
-# MySQL credentials
+# MySQL
 
 mysql_host: anto-oshka-2
 mysql_database: agama
@@ -37,8 +37,9 @@ mysql_replication_password: !vault |
           3536643761373763630a636462613536616462653237613034396265353234376266386663323063
           6362
 
+mysql_backup_host: "{{ groups['application_stack'] | reject('eq', mysql_host) | first | default(mysql_host) }}"
 
-# DNS config
+# DNS
 
 forwarders:
   - 1.1.1.1
@@ -85,6 +86,15 @@ dns_cname_records:
 
 
 # Grafana
+
+grafana_username: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          38313332366537666666653463316238353835393033373935626166366234316239313033343361
+          3965343934323164666231663637653830313638393232330a336163316139343235323736633065
+          65313435653164623639653336316564336638636338653530373732303966633766303739616164
+          3363373866616636370a313036653534373437633238333863343338306139386264393564643136
+          3631
+
 grafana_password: !vault |
           $ANSIBLE_VAULT;1.1;AES256
           62623262643764396636626465376436663437343333356235663432613335623663353063303033
@@ -93,7 +103,6 @@ grafana_password: !vault |
           3439663738343636330a333731336164393230313235656631623833366534616532396164383338
           6631
 
-grafana_port: 3001
 
 # Backups
 
@@ -105,7 +114,31 @@ git_user: anto-oshka
 node_id: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'].split('.')[-1] }}"
 
 # AGAMA ports
+
 agama_port_base: 8000
 agama_ports:
   port_1: 1
   port_2: 3
+
+
+# Ports
+
+## Service ports
+
+agama_main_port: 8001
+grafana_port: 3001
+influxdb_port: 8086
+prometheus_port: 9090
+
+## Statistics ports
+
+bind_statistics_port: 8053
+
+## Exporter ports
+bind_exporter_port: 9119
+haproxy_exporter_port: 9101
+influxdb_exporter_port: 9424
+keepalived_exporter_port: 9165
+mysql_exporter_port: 9104
+nginx_exporter_port: 9113
+node_exporter_port: 9100

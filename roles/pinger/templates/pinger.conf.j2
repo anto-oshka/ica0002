@@ -1,5 +1,5 @@
 {% for vm in groups['internal_services'] -%}
-database_url=http://{{ vm }}:8086
+database_url=http://{{ vm }}:{{ influxdb_port }}
 {% endfor -%}
 database_name=latency
 targets=google.com,cloudflare.com,twitter.com

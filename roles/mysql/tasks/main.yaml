@@ -12,7 +12,7 @@
 
 - name: Change MySQL bind-address
   ansible.builtin.template:
-    src: override.cnf
+    src: override.cnf.j2
     dest: /etc/mysql/mysql.conf.d/override.cnf
   notify: Restart MySQL
 
@@ -33,7 +33,7 @@
     host: "%"
     priv: "{{ mysql_database }}.*:ALL"
     login_unix_socket: /var/run/mysqld/mysqld.sock
-  #no_log: True
+  no_log: True
 
 - name: Add MySQL exporter user
   community.mysql.mysql_user:
@@ -41,7 +41,7 @@
     password: "{{ mysql_exporter_password }}"
     priv: '*.*:PROCESS,REPLICATION CLIENT,SELECT'
     login_unix_socket: /var/run/mysqld/mysqld.sock
-  #no_log: True
+  no_log: True
 
 - name: Add MySQL replication user
   community.mysql.mysql_user:
@@ -50,6 +50,7 @@
     host: "%"
     priv: '*.*:REPLICATION SLAVE'
     login_unix_socket: /var/run/mysqld/mysqld.sock
+  no_log: True
 
 - meta: flush_handlers
 
@@ -62,25 +63,3 @@
   notify:
     - Reset MySQL source
     - Reset MySQL replica
-
-# - name: Make replica servers read-only
-#   community.mysql.mysql_variables:
-#     variable: read_only
-#     value: 'ON'
-#     mode: persist
-#     login_unix_socket: /var/run/mysqld/mysqld.sock
-#   when: inventory_hostname != mysql_host
-#   notify:
-#     - Reset MySQL source
-#     - Reset MySQL replica
-
-# - name: Make primary server read-write
-#   community.mysql.mysql_variables:
-#     variable: read_only
-#     value: 'OFF'
-#     mode: persist
-#     login_unix_socket: /var/run/mysqld/mysqld.sock
-#   when: inventory_hostname == mysql_host
-#   notify:
-#     - Reset MySQL source
-#     - Reset MySQL replica

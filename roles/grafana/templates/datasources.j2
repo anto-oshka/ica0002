@@ -18,7 +18,7 @@ datasources:
    type: influxdb
    access: proxy
    {% for vm in groups['internal_services'] -%}
-   url: http://{{ vm }}:8086
+   url: http://{{ vm }}:{{ influxdb_port }}
    {% endfor -%}
    user:
    password:
@@ -29,7 +29,7 @@ datasources:
    type: influxdb
    access: proxy
    {% for vm in groups['internal_services'] -%}
-   url: http://{{ vm }}:8086
+   url: http://{{ vm }}:{{ influxdb_port }}
    {% endfor -%}
    user:
    password:

@@ -18,7 +18,7 @@
   tags:
     - backup
 
-- name: DNS Server
+- name: DNS
   hosts: dns_servers
   become: yes
   gather_facts: no
@@ -76,7 +76,7 @@
   tags:
     - docker
 
-- name: Web Server
+- name: Agama
   hosts: application_stack
   become: yes
   gather_facts: no
@@ -85,16 +85,25 @@
   tags:
     - agama
 
-- name: Logging
+- name: Prometheus
   hosts:
     - internal_services
   become: yes
   gather_facts: no
   roles:
     - prometheus
+  tags:
+    - prom
+
+- name: Pinger
+  hosts:
+    - internal_services
+  become: yes
+  gather_facts: no
+  roles:
     - pinger
   tags:
-    - log
+    - ping
 
 - name: InfluxDB
   hosts:
@@ -138,3 +147,12 @@
     - haproxy_exporter
   tags:
     - ha
+
+- name: hatemp
+  hosts: application_stack
+  become: yes
+  roles:
+    - haproxy
+    - haproxy_exporter
+  tags:
+    - ht
